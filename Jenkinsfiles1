@@ -1,0 +1,20 @@
+pipeline {
+    agent  { label 'OPENJDK-11-MAVEN' }
+    stages {
+        stage('vcs') {
+            steps {
+                git branch: 'sudhakar', url: 'https://github.com/Ds16071997/spring-petclinic.git'
+            }
+
+        }
+        stage('build') {
+            steps {
+                sh '/usr/share/maven/bin/mvn package'
+            }
+        }
+        stage('archive results') {
+            steps {
+                junit '**/surefire-reports/*.xml'
+            }
+        }
+    }
